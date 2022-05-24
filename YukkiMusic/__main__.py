@@ -21,7 +21,7 @@ from YukkiMusic.core.call import Yukki
 from YukkiMusic.plugins import ALL_MODULES
 from YukkiMusic.utils.database import get_banned_users, get_gbanned
 
-loop = asyncio.get_event_loop()
+loop = asyncio.get_event_loop_policy().get_event_loop()
 
 
 async def init():
@@ -54,7 +54,7 @@ async def init():
         pass
     await app.start()
     for all_module in ALL_MODULES:
-        importlib.import_module("YukkiMusic.plugins" + all_module)
+        importlib.import_module(f"YukkiMusic.plugins{all_module}")
     LOGGER("Yukkimusic.plugins").info(
         "Successfully Imported Modules "
     )
@@ -69,8 +69,6 @@ async def init():
             "[ERROR] - \n\nPlease turn on your Logger Group's Voice Call. Make sure you never close/end voice call in your log group"
         )
         sys.exit()
-    except:
-        pass
     await Yukki.decorators()
     LOGGER("YukkiMusic").info("Yukki Music Bot Started Successfully")
     await idle()
